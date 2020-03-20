@@ -1,0 +1,31 @@
+{
+  "name": "wordpress-build-action",
+  "version": "1.0.0",
+  "description": "This action builds WF WordPress projects and uploads the zipped artifacts to an AWS S3 Bucket.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint index.js",
+    "package": "ncc build index.js -o dist",
+    "test": "eslint index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wunderfarm/wordpress-build-action.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wunderfarm/wordpress-build-action/issues"
+  },
+  "homepage": "https://github.com/wunderfarm/wordpress-build-action#readme",
+  "dependencies": {
+    "@actions/artifact": "^0.2.0",
+    "@actions/core": "^1.2.3",
+    "aws-sdk": "^2.642.0"
+  },
+  "devDependencies": {
+    "@zeit/ncc": "^0.20.5",
+    "eslint": "^6.3.0"
+  }
+}

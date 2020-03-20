@@ -1,0 +1,24 @@
+name: WF WordPress Build
+description: 'Build WordPress project and upload zipped artifacts to AWS S3 Bucket.'
+author: 'wunderfarm'
+inputs:
+  wf-webname:
+    description: 'The unique name of the web (e.g. example2020)'
+    required: true
+    default: 'example2020'
+  aws-s3-bucket:
+    description: 'The AWS S3 Bucket Name'
+    required: true
+  aws-access-key-id:
+    description: 'The AWS S3 Access Key ID'
+    required: true
+  aws-secret-access-key:
+    description: 'The AWS S3 Secred Access Key'
+    required: true
+  aws-region:
+    description: 'The AWS S3 Region'
+    required: false
+    default: 'eu-west-1'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
