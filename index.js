@@ -16,6 +16,7 @@ try {
     const awsAccessKeyId = core.getInput('aws-access-key-id');
     const awsSecretAccessKey = core.getInput('aws-secret-access-key');
     const awsRegion = core.getInput('aws-region');
+    const branch = core.getInput('branch');
 
     console.log(execSync('composer validate').toString())
     console.log(execSync(`composer install --prefer-dist --no-progress --no-suggest`).toString())
@@ -30,7 +31,7 @@ try {
     execSync(`cp -R wp-content dist`).toString()
     execSync(`cp -R .htaccess dist`).toString()
     execSync(`cp -R index.php dist`).toString()
-    execSync(`cp -R wp-config.* dist`).toString()    
+    execSync(`cp -R wp-config.* dist`).toString()
     execSync(`zip -rq ${wfWebname} ./dist`).toString()
     
     let filename = wfWebname + '.zip'
@@ -44,7 +45,7 @@ try {
     let file = fs.readFileSync(filename)
     let params = {
         Bucket: awsS3Bucket,
-        Key: wfWebname + '/' + filename,
+        Key: wfWebname + '/' + branch + '/' + filename,
         Body: file
     }
     s3.upload(params, function (err, data) {
