@@ -17,6 +17,7 @@ try {
     const awsSecretAccessKey = core.getInput('aws-secret-access-key');
     const awsRegion = core.getInput('aws-region');
     const branch = core.getInput('branch');
+    let branchName = branch.str.substring(0, branch.lastIndexOf('/'))
 
     console.log(execSync('composer validate').toString())
     console.log(execSync(`composer install --prefer-dist --no-progress --no-suggest`).toString())
@@ -45,7 +46,7 @@ try {
     let file = fs.readFileSync(filename)
     let params = {
         Bucket: awsS3Bucket,
-        Key: wfWebname + '/' + branch + '/' + filename,
+        Key: wfWebname + '/' + branchName + '/' + filename,
         Body: file
     }
     s3.upload(params, function (err, data) {
