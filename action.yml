@@ -22,7 +22,7 @@ inputs:
   branch:
     description: 'The branch'
     required: false
-    default: ${{ GITHUB_REF##*/ }}
+    default: ${GITHUB_REF##*/}
 runs:
   using: 'node12'
   main: 'dist/index.js'
