@@ -1,4 +1,5 @@
 const core = require('@actions/core')
+const github = require('@actions/github')
 const { execSync } = require('child_process')
 const artifact = require('@actions/artifact')
 const fs = require('fs');
@@ -16,8 +17,10 @@ try {
     const awsAccessKeyId = core.getInput('aws-access-key-id');
     const awsSecretAccessKey = core.getInput('aws-secret-access-key');
     const awsRegion = core.getInput('aws-region');
-    const branch = core.getInput('branch');
-    let branchName = branch.str.substring(0, branch.lastIndexOf('/'))
+    let branchName = github.context.ref;
+    if (branchName.indexOf('/refs/heads/') > -1) {
+        branchName = branchName.slice('/refs/heads/'.length);
+    }
 
     console.log(execSync('composer validate').toString())
     console.log(execSync(`composer install --prefer-dist --no-progress --no-suggest`).toString())
