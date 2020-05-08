@@ -21,7 +21,7 @@ try {
     if (branchName.indexOf('/refs/heads/') > -1) {
         branchName = branchName.slice('/refs/heads/'.length);
     }
-
+    console.log(`branchName: ${branchName}`)
     console.log(execSync('composer validate').toString())
     console.log(execSync(`composer install --prefer-dist --no-progress --no-suggest`).toString())
     console.log(execSync(`composer update johnpbloch/wordpress wunderfarm/* --with-dependencies`).toString())

@@ -21,9 +21,9 @@
   "homepage": "https://github.com/wunderfarm/wordpress-build-action#readme",
   "dependencies": {
     "@actions/artifact": "^0.2.0",
-    "@actions/core": "^1.2.3",
+    "@actions/core": "^1.2.4",
     "@actions/github": "^2.2.0",
-    "aws-sdk": "^2.642.0"
+    "aws-sdk": "^2.672.0"
   },
   "devDependencies": {
     "@zeit/ncc": "^0.20.5",
