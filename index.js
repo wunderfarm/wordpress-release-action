@@ -18,10 +18,9 @@ try {
     const awsSecretAccessKey = core.getInput('aws-secret-access-key');
     const awsRegion = core.getInput('aws-region');
     let branchName = github.context.ref;
-    if (branchName.indexOf('/refs/heads/') > -1) {
-        branchName = branchName.slice('/refs/heads/'.length);
+    if (branchName.indexOf('refs/heads/') > -1) {
+        branchName = branchName.slice('refs/heads/'.length);
     }
-    console.log(`branchName: ${branchName}`)
     console.log(execSync('composer validate').toString())
     console.log(execSync(`composer install --prefer-dist --no-progress --no-suggest`).toString())
     console.log(execSync(`composer update johnpbloch/wordpress wunderfarm/* --with-dependencies`).toString())
