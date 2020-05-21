@@ -45,7 +45,7 @@ try {
     let file = fs.readFileSync(filename)
     let s3params = {
         Bucket: awsS3Bucket,
-        Key: wfWebname + '/' + branchName + '/' + filename,
+        Key: wfWebname + '/' + filename,
         Body: file
     }
     s3.upload(s3params, function (err, data) {
