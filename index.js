@@ -21,9 +21,10 @@ try {
 
     let githubRef = github.context.ref
     let commitSha = github.context.sha
-    let commitMessage = github.event.commits[0].message
-    let releaseName = github.event.release.name
-    let releaseBody = github.event.release.body
+    let eventPayload = github.context.payload
+    let commitMessage = eventPayload.commits[0].message
+    let releaseName = eventPayload.release.name
+    let releaseBody = eventPayload.release.body
     console.log(execSync('composer validate').toString())
     console.log(execSync(`composer install --prefer-dist --no-progress --no-suggest`).toString())
     console.log(execSync(`composer update johnpbloch/wordpress wunderfarm/* --with-dependencies`).toString())
