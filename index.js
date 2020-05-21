@@ -22,9 +22,9 @@ try {
     let githubRef = github.context.ref
     let commitSha = github.context.sha
     let eventPayload = github.context.payload
-    let commitMessage = eventPayload.commits[0].message
-    let releaseName = eventPayload.release.name
-    let releaseBody = eventPayload.release.body
+    console.log(eventPayload)
+    let releaseName = github.event.release.name
+    let releaseBody = github.event.release.body
     console.log(execSync('composer validate').toString())
     console.log(execSync(`composer install --prefer-dist --no-progress --no-suggest`).toString())
     console.log(execSync(`composer update johnpbloch/wordpress wunderfarm/* --with-dependencies`).toString())
@@ -63,7 +63,7 @@ try {
         },
         StackId: awsOpsworksStackId,
         AppId: awsOpsworksAppId,
-        Comment: 'Release title: ' + releaseName + '\n' + 'Release Body: ' + releaseBody + '\n' + 'Ref: ' + githubRef + '\n' + 'Commit: ' + commitMessage + ' (' + commitSha.substring(0,7) + ')'
+        Comment: 'Release title: ' + releaseName + '\n' + 'Release Body: ' + releaseBody + '\n' + 'Ref: ' + githubRef + '\n' + 'Commit: ' + commitSha + ' (' + commitSha.substring(0,7) + ')'
     }
     opsworks.createDeployment(opsworksParams, function (err, data) {
         if (err) {
