@@ -1,4 +1,4 @@
-# WF WordPress Build Action
+# WF WordPress Release Action
 
 This action builds WF WordPress projects and uploads the zipped artifacts to an AWS S3 Bucket.
 
@@ -21,7 +21,7 @@ The AWS S3 Region. Default `"eu-west-1"`
 
 ## Example usage
 ```yaml
-uses: wunderfarm/wordpress-build-action@v1
+uses: wunderfarm/wordpress-release-action@v1
 with:
   wf-webname: 'example2020'
   aws-s3-bucket: ${{ secrets.AWS_S3_BUCKET }}

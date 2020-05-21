@@ -1,5 +1,5 @@
 {
-  "name": "wordpress-build-action",
+  "name": "wordpress-release-action",
   "version": "1.0.0",
   "description": "This action builds WF WordPress projects and uploads the zipped artifacts to an AWS S3 Bucket.",
   "main": "index.js",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wunderfarm/wordpress-build-action.git"
+    "url": "git+https://github.com/wunderfarm/wordpress-release-action.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/wunderfarm/wordpress-build-action/issues"
+    "url": "https://github.com/wunderfarm/wordpress-release-action/issues"
   },
-  "homepage": "https://github.com/wunderfarm/wordpress-build-action#readme",
+  "homepage": "https://github.com/wunderfarm/wordpress-release-action#readme",
   "dependencies": {
     "@actions/artifact": "^0.2.0",
     "@actions/core": "^1.2.4",
