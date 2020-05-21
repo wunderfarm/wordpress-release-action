@@ -24,7 +24,7 @@ try {
     let eventPayload = github.context.payload
     let message = ''
     if (typeof(eventPayload.release) !== 'undefined') {
-        message = 'Release title: ' + eventPayload.release.name + '\n' + 'Release Body: ' + eventPayload.release.body + '\n'
+        message = 'Release: ' + eventPayload.release.name + ' - ' + eventPayload.release.body
     } else if (typeof(eventPayload.commits) !== 'undefined') {
         message = 'Commit: ' + eventPayload.commits[0].message
     }
