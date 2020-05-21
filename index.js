@@ -19,11 +19,11 @@ try {
     const s3 = new AWS.S3()
     const opsworks = new AWS.OpsWorks({apiVersion: '2013-02-18'})
 
-    let branchName = github.context.ref
+    let githubRef = github.context.ref
     let commitSha = github.context.sha
-    if (branchName.indexOf('refs/heads/') > -1) {
-        branchName = branchName.slice('refs/heads/'.length)
-    }
+    let commitMessage = github.event.commits[0].message
+    let releaseName = github.event.release.name
+    let releaseBody = github.event.release.body
     console.log(execSync('composer validate').toString())
     console.log(execSync(`composer install --prefer-dist --no-progress --no-suggest`).toString())
     console.log(execSync(`composer update johnpbloch/wordpress wunderfarm/* --with-dependencies`).toString())
@@ -62,7 +62,7 @@ try {
         },
         StackId: awsOpsworksStackId,
         AppId: awsOpsworksAppId,
-        Comment: 'Branch:' + branchName + ' Commit: ' + commitSha
+        Comment: 'Release title: ' + releaseName + '\n' + 'Release Body: ' + releaseBody + '\n' + 'Ref: ' + githubRef + '\n' + 'Commit: ' + commitMessage + ' (' + commitSha.substring(0,7) + ')'
     }
     opsworks.createDeployment(opsworksParams, function (err, data) {
         if (err) {
