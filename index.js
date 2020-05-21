@@ -53,14 +53,6 @@ try {
         Key: wfWebname + '/' + filename,
         Body: file
     }
-    s3.upload(s3params, function (err, data) {
-        if (err) {
-            core.setFailed(err.toString())
-            throw err
-        }
-        console.log(`File uploaded successfully. ${data.Location}`)
-    })
-    
     let opsworksParams = {
         Command: {
             Name: 'deploy'
@@ -69,12 +61,21 @@ try {
         AppId: awsOpsworksAppId,
         Comment: message
     }
-    opsworks.createDeployment(opsworksParams, function (err, data) {
+
+    s3.upload(s3params, function (err, data) {
         if (err) {
             core.setFailed(err.toString())
             throw err
         }
-        console.log(`App successfully deployed. ${data.DeploymentId}`)
+        console.log(`File uploaded successfully. ${data.Location}`)
+
+        opsworks.createDeployment(opsworksParams, function (err, data) {
+            if (err) {
+                core.setFailed(err.toString())
+                throw err
+            }
+            console.log(`App successfully deployed. ${data.DeploymentId}`)
+        })
     })
 } catch (error) {
     core.setFailed(error.message)
