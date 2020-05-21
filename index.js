@@ -1,14 +1,8 @@
 const core = require('@actions/core')
 const github = require('@actions/github')
 const { execSync } = require('child_process')
-const artifact = require('@actions/artifact')
 const fs = require('fs')
 const AWS = require('aws-sdk')
-const artifactClient = artifact.create()
-const rootDirectory = '.'
-const options = {
-    continueOnError: false
-}
 
 try {
     const wfWebname = core.getInput('wf-webname')
@@ -47,7 +41,6 @@ try {
     execSync(`zip -rq ${wfWebname} ./dist`).toString()
     
     let filename = wfWebname + '.zip'
-    artifactClient.uploadArtifact(wfWebname, [filename], rootDirectory, options)
 
     let file = fs.readFileSync(filename)
     let s3params = {
