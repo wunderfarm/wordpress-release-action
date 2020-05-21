@@ -5,7 +5,7 @@ const artifact = require('@actions/artifact')
 const fs = require('fs');
 const AWS = require('aws-sdk')
 const s3 = new AWS.S3()
-const opsworks = new AWS.OpsWorks({apiVersion: '2013-02-18'});
+const opsworks = new AWS.OpsWorks();
 
 const artifactClient = artifact.create()
 const rootDirectory = '.'
