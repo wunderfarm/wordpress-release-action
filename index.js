@@ -2,11 +2,8 @@ const core = require('@actions/core')
 const github = require('@actions/github')
 const { execSync } = require('child_process')
 const artifact = require('@actions/artifact')
-const fs = require('fs');
+const fs = require('fs')
 const AWS = require('aws-sdk')
-const s3 = new AWS.S3()
-const opsworks = new AWS.OpsWorks();
-
 const artifactClient = artifact.create()
 const rootDirectory = '.'
 const options = {
@@ -14,17 +11,24 @@ const options = {
 }
 
 try {
-    const wfWebname = core.getInput('wf-webname');
-    const awsS3Bucket = core.getInput('aws-s3-bucket');
-    const awsAccessKeyId = core.getInput('aws-access-key-id');
-    const awsSecretAccessKey = core.getInput('aws-secret-access-key');
-    const awsRegion = core.getInput('aws-region');
-    const awsOpsworksStackId = core.getInput('aws-opsworks-stack-id');
-    const awsOpsworksAppId = core.getInput('aws-opsworks-app-id');
-    let branchName = github.context.ref;
-    let commitSha = github.context.sha;
+    const wfWebname = core.getInput('wf-webname')
+    const awsS3Bucket = core.getInput('aws-s3-bucket')
+    const awsAccessKeyId = core.getInput('aws-access-key-id')
+    const awsSecretAccessKey = core.getInput('aws-secret-access-key')
+    const awsRegion = core.getInput('aws-region')
+    const awsOpsworksStackId = core.getInput('aws-opsworks-stack-id')
+    const awsOpsworksAppId = core.getInput('aws-opsworks-app-id')
+    AWS.config = new AWS.Config()
+    AWS.config.accessKeyId = awsAccessKeyId
+    AWS.config.secretAccessKey = awsSecretAccessKey
+    AWS.config.region = awsRegion ? awsRegion : 'eu-west-1'
+    const s3 = new AWS.S3()
+    const opsworks = new AWS.OpsWorks({apiVersion: '2013-02-18'})
+
+    let branchName = github.context.ref
+    let commitSha = github.context.sha
     if (branchName.indexOf('refs/heads/') > -1) {
-        branchName = branchName.slice('refs/heads/'.length);
+        branchName = branchName.slice('refs/heads/'.length)
     }
     console.log(execSync('composer validate').toString())
     console.log(execSync(`composer install --prefer-dist --no-progress --no-suggest`).toString())
@@ -45,11 +49,6 @@ try {
     let filename = wfWebname + '.zip'
     artifactClient.uploadArtifact(wfWebname, [filename], rootDirectory, options)
 
-    AWS.config = new AWS.Config();
-    AWS.config.accessKeyId = awsAccessKeyId
-    AWS.config.secretAccessKey = awsSecretAccessKey
-    AWS.config.region = awsRegion ? awsRegion : 'eu-west-1'
-
     let file = fs.readFileSync(filename)
     let s3params = {
         Bucket: awsS3Bucket,
@@ -58,10 +57,10 @@ try {
     }
     s3.upload(s3params, function (err, data) {
         if (err) {
-            core.setFailed(err.toString());
+            core.setFailed(err.toString())
             throw err
         }
-        console.log(`File uploaded successfully. ${data.Location}`);
+        console.log(`File uploaded successfully. ${data.Location}`)
     })
     
     let opsworksParams = {
@@ -74,10 +73,10 @@ try {
     }
     opsworks.createDeployment(opsworksParams, function (err, data) {
         if (err) {
-            core.setFailed(err.toString());
+            core.setFailed(err.toString())
             throw err
         }
-        console.log(`App successfully deployed. ${data.DeploymentId}`);
+        console.log(`App successfully deployed. ${data.DeploymentId}`)
     })
 } catch (error) {
     core.setFailed(error.message)
