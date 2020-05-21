@@ -24,9 +24,9 @@ try {
     let eventPayload = github.context.payload
     let message = ''
     if (typeof(eventPayload.release) !== 'undefined') {
-        message = 'Release: ' + eventPayload.release.name + ' - ' + eventPayload.release.body
+        message = 'Release: ' + eventPayload.release.name + ' - "' + eventPayload.release.body + '" '
     } else if (typeof(eventPayload.commits) !== 'undefined') {
-        message = 'Commit: ' + eventPayload.commits[0].message
+        message = 'Commit: "' + eventPayload.commits[0].message + '" '
     }
     message = message + 'Ref: ' + githubRef + ' (' + commitSha.substring(0,7) + ')'
     console.log(execSync('composer validate').toString())
