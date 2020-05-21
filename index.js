@@ -24,13 +24,11 @@ try {
     let eventPayload = github.context.payload
     let message = ''
     if (typeof(eventPayload.release) !== 'undefined') {
-        message = 'Release title: ' + releaseName + '\n' + 'Release Body: ' + releaseBody + '\n'
+        message = 'Release title: ' + eventPayload.release.name + '\n' + 'Release Body: ' + eventPayload.release.body + '\n'
     } else if (typeof(eventPayload.commits) !== 'undefined') {
         message = 'Commit: ' + eventPayload.commits[0].message
     }
     message = message + 'Ref: ' + githubRef + ' (' + commitSha.substring(0,7) + ')'
-    let releaseName = eventPayload.release.name
-    let releaseBody = eventPayload.release.body
     console.log(execSync('composer validate').toString())
     console.log(execSync(`composer install --prefer-dist --no-progress --no-suggest`).toString())
     console.log(execSync(`composer update johnpbloch/wordpress wunderfarm/* --with-dependencies`).toString())
