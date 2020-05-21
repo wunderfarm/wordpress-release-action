@@ -19,6 +19,12 @@ inputs:
     description: 'The AWS S3 Region'
     required: false
     default: 'eu-west-1'
+  aws-opsworks-stack-id:
+    description: 'The AWS Opsworks Stack ID'
+    required: true
+  aws-opsworks-app-id:
+    description: 'The AWS Opsworks App ID'
+    required: true
 runs:
   using: 'node12'
   main: 'dist/index.js'
