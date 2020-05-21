@@ -1,6 +1,6 @@
 # WF WordPress Release Action
 
-This action builds WF WordPress projects and uploads the zipped artifacts to an AWS S3 Bucket.
+This action builds WF WordPress projects, uploads the zipped artifacts to an AWS S3 Bucket and triggers the app deployment on the desired AWS OpsWorks Stack.
 
 ## Inputs
 
@@ -19,6 +19,12 @@ This action builds WF WordPress projects and uploads the zipped artifacts to an 
 ### `aws-region`
 The AWS S3 Region. Default `"eu-west-1"`  
 
+### `aws-opsworks-stack-id`
+The AWS Opsworks Stack ID.  
+
+### `aws-opsworks-app-id`
+The AWS Opsworks App ID.  
+
 ## Example usage
 ```yaml
 uses: wunderfarm/wordpress-release-action@v1
@@ -28,6 +34,8 @@ with:
   aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   aws-region: 'eu-west-1'
+  aws-opsworks-stack-id: ${{ secrets.AWS_STACK_ID }}
+  aws-opsworks-app-id: ${{ secrets.AWS_APP_ID }}
 ```
 
 ## Package for distribution
