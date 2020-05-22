@@ -43,6 +43,7 @@ try {
     execSync(`cp -R .htaccess dist`).toString()
     execSync(`cp -R index.php dist`).toString()
     execSync(`cp -R wp-config.* dist`).toString()
+    execSync(`cp -R robots.txt dist`).toString()
     execSync(`zip -rq ${wfWebname} ./dist`).toString()
     
     let filename = wfWebname + '.zip'
