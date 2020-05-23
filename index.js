@@ -52,7 +52,7 @@ try {
     let s3params = {
         Bucket: awsS3Bucket,
         Tagging: 'bill='+wfWebname+'&client='+wfWebname+'',
-        Key: awsOpsworksStackId + '/' + wfWebname + '-' + awsOpsworksAppId + '/' + filename,
+        Key: awsOpsworksStackId + '/' + wfWebname + '_' + awsOpsworksAppId + '/' + filename,
         Body: file
     }
     let opsworksParams = {
