@@ -54,11 +54,8 @@ try {
             core.setFailed(err.toString())
             throw err
         } else {
-            data.Apps.some(function(app) {
-                if (app.Shortname === wfWebname) {
-                    return awsOpsworksAppId = app.AppId
-                }
-            })
+            let app = data.Apps.find(app => app.Shortname === wfWebname)
+            awsOpsworksAppId = app.AppId
         }
     })
 
