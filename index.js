@@ -23,6 +23,8 @@ try {
     let githubRef = github.context.ref
     let commitSha = github.context.sha
     let githubToken = github.context.token
+    let githubOwner = github.context.owner
+    let githubRepository = github.context.repository
     let eventPayload = github.context.payload
     let message = ''
     if (typeof(eventPayload.release) !== 'undefined') {
@@ -49,12 +51,12 @@ try {
     execSync(`zip -rq ${wfWebname} ./dist`).toString()
     
     let filename = wfWebname + '.zip'
-
     let file = fs.readFileSync(filename)
 
     if (!awsOpsworksAppId) {
         let appParams =  {
             Name: wfWebname,
+            Shortname: wfWebname,
             StackId: awsOpsworksStackId,
             Type: 'other',
             Domains: []
@@ -73,8 +75,8 @@ try {
                 auth: githubToken
             });
             let repPublicKey = octokit.actions.getRepoPublicKey({
-                owner: "octokit",
-                repo: "rest.js"
+                owner: githubOwner,
+                repo: githubRepository
             })
     
             const sodium = require('tweetsodium')
@@ -84,8 +86,8 @@ try {
             const encrypted = Buffer.from(encryptedBytes).toString('base64')
     
             octokit.actions.createOrUpdateRepoSecret({
-                owner: "octokit",
-                repo: "rest.js",
+                owner: githubOwner,
+                repo: githubRepository,
                 secret_name: 'AWS_APP_ID',
                 encrypted_value: encrypted
             })
