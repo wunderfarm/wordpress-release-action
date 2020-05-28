@@ -23,6 +23,7 @@
     "@actions/artifact": "^0.2.0",
     "@actions/core": "^1.2.4",
     "@actions/github": "^2.2.0",
+    "@octokit/rest": "^17.9.2",
     "aws-sdk": "^2.672.0",
     "tweetsodium": "0.0.5"
   },

@@ -1,5 +1,6 @@
 const core = require('@actions/core')
 const github = require('@actions/github')
+const { Octokit } = require("@octokit/rest")
 const { execSync } = require('child_process')
 const fs = require('fs')
 const AWS = require('aws-sdk')
@@ -68,7 +69,9 @@ try {
             console.log(`App successfully created. ${data.AppId}`)
 
             awsOpsworksAppId = data.AppId
-            const octokit = new github.GitHub(repoToken)
+            const octokit = new Octokit({
+                auth: repoToken
+            });
             let repPublicKey = octokit.actions.getRepoPublicKey({
                 owner: "octokit",
                 repo: "rest.js"
