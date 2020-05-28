@@ -1,6 +1,5 @@
 const core = require('@actions/core')
 const github = require('@actions/github')
-const { Octokit } = require("@octokit/rest")
 const { execSync } = require('child_process')
 const fs = require('fs')
 const AWS = require('aws-sdk')
@@ -12,7 +11,7 @@ try {
     const awsSecretAccessKey = core.getInput('aws-secret-access-key')
     const awsRegion = core.getInput('aws-region')
     const awsOpsworksStackId = core.getInput('aws-opsworks-stack-id')
-    let awsOpsworksAppId = core.getInput('aws-opsworks-app-id')
+    let awsOpsworksAppId;
     AWS.config = new AWS.Config()
     AWS.config.accessKeyId = awsAccessKeyId
     AWS.config.secretAccessKey = awsSecretAccessKey
@@ -22,9 +21,6 @@ try {
 
     let githubRef = github.context.ref
     let commitSha = github.context.sha
-    let githubToken = github.context.token
-    let githubOwner = github.context.owner
-    let githubRepository = github.context.repository
     let eventPayload = github.context.payload
     let message = ''
     if (typeof(eventPayload.release) !== 'undefined') {
@@ -53,6 +49,19 @@ try {
     let filename = wfWebname + '.zip'
     let file = fs.readFileSync(filename)
 
+    opsworks.describeApps({StackId: awsOpsworksStackId}, function(err, data) {
+        if (err) {
+            core.setFailed(err.toString())
+            throw err
+        } else {
+            data.Apps.some(function(app) {
+                if (app.Shortname === wfWebname) {
+                    return awsOpsworksAppId = app.AppId
+                }
+            })
+        }
+    })
+
     if (!awsOpsworksAppId) {
         let appParams =  {
             Name: wfWebname,
@@ -71,26 +80,6 @@ try {
             console.log(`App successfully created. ${data.AppId}`)
 
             awsOpsworksAppId = data.AppId
-            const octokit = new Octokit({
-                auth: githubToken
-            });
-            let repPublicKey = octokit.actions.getRepoPublicKey({
-                owner: githubOwner,
-                repo: githubRepository
-            })
-    
-            const sodium = require('tweetsodium')
-            const messageBytes = Buffer.from(awsOpsworksAppId)
-            const keyBytes = Buffer.from(repPublicKey.key, 'base64')
-            const encryptedBytes = sodium.seal(messageBytes, keyBytes)
-            const encrypted = Buffer.from(encryptedBytes).toString('base64')
-    
-            octokit.actions.createOrUpdateRepoSecret({
-                owner: githubOwner,
-                repo: githubRepository,
-                secret_name: 'AWS_APP_ID',
-                encrypted_value: encrypted
-            })
         })
     }
 

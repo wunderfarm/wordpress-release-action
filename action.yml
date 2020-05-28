@@ -22,9 +22,6 @@ inputs:
   aws-opsworks-stack-id:
     description: 'The AWS Opsworks Stack ID'
     required: true
-  aws-opsworks-app-id:
-    description: 'The AWS Opsworks App ID'
-    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
