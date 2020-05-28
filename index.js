@@ -79,7 +79,7 @@ try {
     
             const sodium = require('tweetsodium')
             const messageBytes = Buffer.from(awsOpsworksAppId)
-            const keyBytes = Buffer.from(repPublicKey, 'base64')
+            const keyBytes = Buffer.from(repPublicKey.key, 'base64')
             const encryptedBytes = sodium.seal(messageBytes, keyBytes)
             const encrypted = Buffer.from(encryptedBytes).toString('base64')
     
