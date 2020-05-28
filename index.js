@@ -13,7 +13,6 @@ try {
     const awsRegion = core.getInput('aws-region')
     const awsOpsworksStackId = core.getInput('aws-opsworks-stack-id')
     let awsOpsworksAppId = core.getInput('aws-opsworks-app-id')
-    const repoToken = core.getInput('repo-token')
     AWS.config = new AWS.Config()
     AWS.config.accessKeyId = awsAccessKeyId
     AWS.config.secretAccessKey = awsSecretAccessKey
@@ -23,6 +22,7 @@ try {
 
     let githubRef = github.context.ref
     let commitSha = github.context.sha
+    let githubToken = github.context.token
     let eventPayload = github.context.payload
     let message = ''
     if (typeof(eventPayload.release) !== 'undefined') {
@@ -70,7 +70,7 @@ try {
 
             awsOpsworksAppId = data.AppId
             const octokit = new Octokit({
-                auth: repoToken
+                auth: githubToken
             });
             let repPublicKey = octokit.actions.getRepoPublicKey({
                 owner: "octokit",
