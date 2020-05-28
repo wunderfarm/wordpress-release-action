@@ -51,7 +51,7 @@ try {
 
     let file = fs.readFileSync(filename)
 
-    if (awsOpsworksAppId) {
+    if (!awsOpsworksAppId) {
         let appParams =  {
             Name: wfWebname,
             StackId: awsOpsworksStackId,
@@ -112,7 +112,7 @@ try {
         }
         console.log(`File uploaded successfully. ${data.Location}`)
         
-        if (!awsOpsworksAppId) {
+        if (awsOpsworksAppId) {
             opsworks.createDeployment(deploymentParams, function (err, data) {
                 if (err) {
                     core.setFailed(err.toString())
