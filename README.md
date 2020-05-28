@@ -5,25 +5,25 @@ This action builds WF WordPress projects, uploads the zipped artifacts to an AWS
 ## Inputs
 
 ### `wf-webname`
-**Required** The unique name of the web. Default `"example2020"`.  
+**Required** The unique name of the web. Default `"example2020"`.
 
 ### `aws-s3-bucket`
-**Required** The AWS S3 Bucket Name.  
+**Required** The AWS S3 Bucket Name.
 
 ### `aws-access-key-id`
-**Required** The AWS S3 Access Key ID.  
+**Required** The AWS S3 Access Key ID.
 
 ### `aws-secret-access-key`
-**Required** The AWS S3 Secred Access Key.  
+**Required** The AWS S3 Secred Access Key.
 
 ### `aws-region`
-The AWS S3 Region. Default `"eu-west-1"`  
+The AWS S3 Region. Default `"eu-west-1"`
 
 ### `aws-opsworks-stack-id`
-The AWS Opsworks Stack ID.  
+The AWS Opsworks Stack ID.
 
 ### `aws-opsworks-app-id`
-The AWS Opsworks App ID.  
+The AWS Opsworks App ID.
 
 ## Example usage
 ```yaml
@@ -36,6 +36,7 @@ with:
   aws-region: 'eu-west-1'
   aws-opsworks-stack-id: ${{ secrets.AWS_STACK_ID }}
   aws-opsworks-app-id: ${{ secrets.AWS_APP_ID }}
+  repo-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ## Package for distribution

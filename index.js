@@ -11,7 +11,8 @@ try {
     const awsSecretAccessKey = core.getInput('aws-secret-access-key')
     const awsRegion = core.getInput('aws-region')
     const awsOpsworksStackId = core.getInput('aws-opsworks-stack-id')
-    const awsOpsworksAppId = core.getInput('aws-opsworks-app-id')
+    let awsOpsworksAppId = core.getInput('aws-opsworks-app-id')
+    const repoToken = core.getInput('repo-token')
     AWS.config = new AWS.Config()
     AWS.config.accessKeyId = awsAccessKeyId
     AWS.config.secretAccessKey = awsSecretAccessKey
@@ -49,13 +50,53 @@ try {
     let filename = wfWebname + '.zip'
 
     let file = fs.readFileSync(filename)
+
+    if (awsOpsworksAppId === 'undefined') {
+        let appParams =  {
+            Name: wfWebname,
+            StackId: awsOpsworksStackId,
+            Type: 'other',
+            Domains: []
+        }
+
+        opsworks.createApp(appParams, function (err, data) {
+            if (err) {
+                core.setFailed(err.toString())
+                throw err
+            }
+
+            console.log(`App successfully created. ${data.AppId}`)
+
+            awsOpsworksAppId = data.AppId
+            const octokit = new github.GitHub(repoToken)
+            let repPublicKey = octokit.actions.getRepoPublicKey({
+                owner: "octokit",
+                repo: "rest.js"
+            })
+    
+            const sodium = require('tweetsodium')
+            const messageBytes = Buffer.from(awsOpsworksAppId)
+            const keyBytes = Buffer.from(repPublicKey.key, 'base64')
+            const encryptedBytes = sodium.seal(messageBytes, keyBytes)
+            const encrypted = Buffer.from(encryptedBytes).toString('base64')
+    
+            octokit.actions.createOrUpdateRepoSecret({
+                owner: "octokit",
+                repo: "rest.js",
+                secret_name: 'AWS_APP_ID',
+                encrypted_value: encrypted
+            })
+        })
+    }
+
     let s3params = {
         Bucket: awsS3Bucket,
         Tagging: 'bill='+wfWebname+'&client='+wfWebname+'',
         Key: awsOpsworksStackId + '/' + wfWebname + '_' + awsOpsworksAppId + '/' + filename,
         Body: file
     }
-    let opsworksParams = {
+
+    let deploymentParams = {
         Command: {
             Name: 'deploy'
         },
@@ -70,15 +111,20 @@ try {
             throw err
         }
         console.log(`File uploaded successfully. ${data.Location}`)
-
-        opsworks.createDeployment(opsworksParams, function (err, data) {
-            if (err) {
-                core.setFailed(err.toString())
-                throw err
-            }
-            console.log(`App successfully deployed. ${data.DeploymentId}`)
-        })
+        
+        if (awsOpsworksAppId !== 'undefined') {
+            opsworks.createDeployment(deploymentParams, function (err, data) {
+                if (err) {
+                    core.setFailed(err.toString())
+                    throw err
+                }
+                console.log(`App successfully deployed. ${data.DeploymentId}`)
+            })
+        } else {
+            core.setFailed(`Undefined OpsWorks App ID.`)
+        }
     })
+
 } catch (error) {
     core.setFailed(error.message)
 }
