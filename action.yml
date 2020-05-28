@@ -25,7 +25,6 @@ inputs:
   aws-opsworks-app-id:
     description: 'The AWS Opsworks App ID'
     required: false
-    default: 'undefined'
   repo-token:
     description: 'The repository GITHUB_TOKEN secret'
     required: true
