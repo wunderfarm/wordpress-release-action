@@ -172,8 +172,10 @@ async function runAction() {
             let appParams = {
                 AppId: app.AppId,
                 Name: wfWebname,
-                StackId: awsOpsworksStackId,
                 Type: 'other',
+                AppSource: {
+                    Type: ' other'
+                },
                 DataSources: [{
                     Arn: awsRdsDbArn,
                     DatabaseName: databaseName,
@@ -183,13 +185,13 @@ async function runAction() {
                 Domains: appDomains
             }
 
-            opsworks.updateApp(appParams, function (err, data) {
+            opsworks.updateApp(appParams, function (err) {
                 if (err) {
                     core.setFailed(err.toString())
                     throw err
                 }
-                console.log(`OpsWorks App successfully updated. ${data.AppId}`)
-                deployApp(data.AppId)
+                console.log(`OpsWorks App successfully updated. ${app.AppId}`)
+                deployApp(app.AppId)
             })
 
         } else {
@@ -199,6 +201,9 @@ async function runAction() {
                 Shortname: wfWebname,
                 StackId: awsOpsworksStackId,
                 Type: 'other',
+                AppSource: {
+                    Type: ' other'
+                },
                 DataSources: [{
                     Arn: awsRdsDbArn,
                     DatabaseName: databaseName,
