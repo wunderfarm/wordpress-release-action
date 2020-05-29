@@ -63,14 +63,15 @@ The AWS Opsworks App ID.
 uses: wunderfarm/wordpress-release-action@v1
 with:
   wf-webname: 'example2020'
+  wf-client: 'example2020'
   aws-s3-bucket: ${{ secrets.AWS_S3_BUCKET }}
   database-host: ${{ secrets.APP_DB_HOST }}
-  database-slavehost:  ${{ secrets.APP_DB_SLAVEHOST }}
+  database-slavehost: ${{ secrets.APP_DB_SLAVEHOST }}
   database-name: 'example2020_production'
-  database-user:  ${{ secrets.APP_DB_USER }}
-  database-password:  ${{ secrets.APP_DB_PASSWORD }}
+  database-user: ${{ secrets.APP_DB_USER }}
+  database-password: ${{ secrets.APP_DB_PASSWORD }}
   deployment-environment: 'staging'
-  deployment-domains: '[{'www.example.com'}]'
+  deployment-domains: 'www.example.com,test.example.com'
   wf-auth-user: ${{ secrets.WF_AUTHUSER }}
   wf-auth-password: ${{ secrets.WF_AUTHPASSWORD }}
   aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -78,7 +79,7 @@ with:
   aws-region: 'eu-west-1'
   aws-opsworks-stack-id: ${{ secrets.AWS_STACK_ID }}
   aws-opsworks-app-id: ${{ secrets.AWS_APP_ID }}
-  aws-rds-arn:  ${{ secrets.AWS_RDS_ARN }}'
+  aws-rds-arn: ${{ secrets.AWS_RDS_ARN }}'
 ```
 
 ## Package for distribution
