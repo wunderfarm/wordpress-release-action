@@ -27,7 +27,7 @@ inputs:
     description: 'The deployment environment (e.g. staging)'
     default: 'production'
   deployment-domains:
-    description: 'The deployment domain (e.g. [{'www.example.com'}])'
+    description: 'The deployment domain (e.g. `www.example.com,test.example.com`)'
     required: true
   aws-s3-bucket:
     description: 'The AWS S3 Bucket Name'
@@ -51,6 +51,3 @@ inputs:
 runs:
   using: 'node12'
   main: 'dist/index.js'
-
-
-  Trigger the workflow on release published
