@@ -9,6 +9,26 @@ inputs:
   wf-client:
     description: 'The unique name of the client (e.g. ACME)'
     default: 'ACME'
+  database-host:
+    description: 'The database host'
+    required: true
+  database-slavehost:
+    description: 'The database slavehost'
+  database-name:
+    description: 'The database name (e.g. example2020_production)'
+    required: true
+  database-user:
+    description: 'The database user'
+    required: true
+  database-password:
+    description: 'The database password'
+    required: true
+  deployment-environment:
+    description: 'The deployment environment (e.g. staging)'
+    default: 'production'
+  deployment-domains:
+    description: 'The deployment domain (e.g. [{'www.example.com'}])'
+    required: true
   aws-s3-bucket:
     description: 'The AWS S3 Bucket Name'
     required: true
@@ -23,8 +43,14 @@ inputs:
     required: false
     default: 'eu-west-1'
   aws-opsworks-stack-id:
-    description: 'The AWS Opsworks Stack ID'
+    description: 'The AWS OpsWorks Stack ID'
+    required: true
+  aws-rds-arn:
+    description: 'The AWS RDS instance ARN'
     required: true
 runs:
   using: 'node12'
   main: 'dist/index.js'
+
+
+  Trigger the workflow on release published

@@ -1,15 +1,28 @@
 const core = require('@actions/core')
 const github = require('@actions/github')
-const { execSync } = require('child_process')
+const {
+    execSync
+} = require('child_process')
 const fs = require('fs')
 const AWS = require('aws-sdk')
 const wfWebname = core.getInput('wf-webname')
 const wfClient = core.getInput('wf-client') ? core.getInput('wf-client') : wfWebname
+const deploymentDomains = core.getInput('deployment-domains')
+const deploymentEnvironment = core.getInput('deployment-environment') ? core.getInput('deployment-environment') : 'production'
+const databaseHost = core.getInput('database-host')
+const databaseSlavehost = core.getInput('database-slavehost')
+const databaseName = core.getInput('database-name')
+const databaseUser = core.getInput('database-user')
+const databasePassword = core.getInput('database-password')
+const wfAuthUser = core.getInput('wf-auth-user')
+const wfAuthPassword = core.getInput('wf-auth-password')
 const awsS3Bucket = core.getInput('aws-s3-bucket')
 const awsAccessKeyId = core.getInput('aws-access-key-id')
 const awsSecretAccessKey = core.getInput('aws-secret-access-key')
 const awsRegion = core.getInput('aws-region')
 const awsOpsworksStackId = core.getInput('aws-opsworks-stack-id')
+const awsRdsDbArn = core.getInput('aws-rds-arn')
+
 let awsOpsworksAppId;
 AWS.config = new AWS.Config()
 AWS.config.accessKeyId = awsAccessKeyId
@@ -39,17 +52,99 @@ async function getAwsOpsworksApp() {
 async function runAction() {
     var app
     try {
+
+        let appDomains = deploymentDomains.split(',')
+
+        let appEnvironmentVars = [{
+                Key: 'WF_ENV',
+                Value: deploymentEnvironment,
+                Secure: false
+            },
+            {
+                Key: 'DB_HOST',
+                Value: databaseHost,
+                Secure: false
+            },
+            {
+                Key: 'DB_USER',
+                Value: databaseUser,
+                Secure: false
+            },
+            {
+                Key: 'DB_PASSWORD',
+                Value: databasePassword,
+                Secure: true
+            }
+        ]
+
+        if (databaseSlavehost) {
+            appEnvironmentVars.push({
+                Key: 'DB_SLAVEHOST',
+                Value: databaseSlavehost,
+                Secure: false
+            })
+        }
+
+        if (wfAuthUser && wfAuthPassword) {
+            appEnvironmentVars.push({
+                Key: 'WF_AUTHUSER',
+                Value: wfAuthUser,
+                Secure: false
+            })
+            appEnvironmentVars.push({
+                Key: 'WF_AUTHPASSWORD',
+                Value: wfAuthPassword,
+                Secure: true
+            })
+        }
+
+
+
         app = await getAwsOpsworksApp()
 
         if (typeof (app) !== 'undefined') {
+
             awsOpsworksAppId = app.AppId
+            console.log(`OpsWorks App allready setup. ${app.AppId}`)
+
+            let appParams = {
+                AppId: awsOpsworksAppId,
+                Name: wfWebname,
+                StackId: awsOpsworksStackId,
+                Type: 'other',
+                DataSources: [{
+                    Arn: awsRdsDbArn,
+                    DatabaseName: databaseName,
+                    Type: 'RdsDbInstance'
+                }],
+                Environment: appEnvironmentVars,
+                Domains: appDomains
+            }
+
+            opsworks.updateApp(appParams, function (err, data) {
+                if (err) {
+                    core.setFailed(err.toString())
+                    throw err
+                }
+                console.log(`OpsWorks App successfully updated. ${data.AppId}`)
+
+                awsOpsworksAppId = data.AppId
+            })
+
         } else {
+
             let appParams = {
                 Name: wfWebname,
                 Shortname: wfWebname,
                 StackId: awsOpsworksStackId,
                 Type: 'other',
-                Domains: []
+                DataSources: [{
+                    Arn: awsRdsDbArn,
+                    DatabaseName: databaseName,
+                    Type: 'RdsDbInstance'
+                }],
+                Environment: appEnvironmentVars,
+                Domains: appDomains
             }
 
             opsworks.createApp(appParams, function (err, data) {
@@ -57,7 +152,7 @@ async function runAction() {
                     core.setFailed(err.toString())
                     throw err
                 }
-                console.log(`App successfully created. ${data.AppId}`)
+                console.log(`New OpsWorks App successfully created. ${data.AppId}`)
 
                 awsOpsworksAppId = data.AppId
             })
@@ -116,14 +211,14 @@ async function runAction() {
                     core.setFailed(err.toString())
                     throw err
                 }
-                console.log(`File uploaded successfully. ${data.Location}`)
+                console.log(`File uploaded successfully to S3. ${data.Location}`)
 
                 opsworks.createDeployment(deploymentParams, function (err, data) {
                     if (err) {
                         core.setFailed(err.toString())
                         throw err
                     }
-                    console.log(`App successfully deployed. ${data.DeploymentId}`)
+                    console.log(`OpsWorks App successfully deployed. ${data.DeploymentId}`)
                 })
             })
         } else {
