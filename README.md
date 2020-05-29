@@ -1,11 +1,14 @@
 # WF WordPress Release Action
 
-This action builds WF WordPress projects, uploads the zipped artifacts to an AWS S3 Bucket and triggers the app deployment on the desired AWS OpsWorks Stack.
+This action builds WF WordPress projects, uploads the zipped artifacts to an AWS S3 Bucket and triggers the app creation and deployment on the desired AWS OpsWorks Stack.
 
 ## Inputs
 
 ### `wf-webname`
 **Required** The unique name of the web. Default `"example2020"`.
+
+### `wf-client`
+**Required** The unique name of the client. (e.g. `"example2020"`)`.
 
 ### `aws-s3-bucket`
 **Required** The AWS S3 Bucket Name.

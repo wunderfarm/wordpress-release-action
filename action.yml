@@ -6,6 +6,9 @@ inputs:
     description: 'The unique name of the web (e.g. example2020)'
     required: true
     default: 'example2020'
+  wf-client:
+    description: 'The unique name of the client (e.g. ACME)'
+    default: 'ACME'
   aws-s3-bucket:
     description: 'The AWS S3 Bucket Name'
     required: true
