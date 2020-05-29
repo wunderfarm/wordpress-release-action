@@ -52,9 +52,6 @@ The AWS S3 Region. Default `"eu-west-1"`
 ### `aws-opsworks-stack-id`
 **Required** The AWS Opsworks Stack ID.
 
-### `aws-opsworks-app-id`
-The AWS Opsworks App ID.
-
 ### `aws-rds-arn`
 **Required** The AWS RDS instance ARN. 
 
@@ -78,7 +75,6 @@ with:
   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   aws-region: 'eu-west-1'
   aws-opsworks-stack-id: ${{ secrets.AWS_STACK_ID }}
-  aws-opsworks-app-id: ${{ secrets.AWS_APP_ID }}
   aws-rds-arn: ${{ secrets.AWS_RDS_ARN }}'
 ```
 
