@@ -167,7 +167,7 @@ async function runAction() {
 
         if (typeof (app) !== 'undefined') {
 
-            console.log(`OpsWorks App allready setup. ${app.AppId}`)
+            console.log(`OpsWorks App already setup. ${app.AppId}`)
 
             let appParams = {
                 AppId: app.AppId,
