@@ -34,10 +34,10 @@ The deployment environment to use (e.g. staging). Default `"production"`.
 ### `deployment-domains`:
 **Required** The deployment domain to use (e.g. `"www.example.com,test.example.com"`)
 
-### `wf-auth-user``
+### `wf-auth-user`
 Optional HTTP auth user
 
-### `wf-auth-password``
+### `wf-auth-password`
 Optional HTTP auth password
 
 ### `aws-access-key-id`
@@ -57,7 +57,7 @@ The AWS S3 Region. Default `"eu-west-1"`
 
 ## Example usage
 ```yaml
-uses: wunderfarm/wordpress-release-action@v1
+uses: wunderfarm/wordpress-release-action@v4
 with:
   wf-webname: 'example2020'
   wf-client: 'example2020'
