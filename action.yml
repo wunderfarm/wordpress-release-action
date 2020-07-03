@@ -29,6 +29,9 @@ inputs:
   deployment-domains:
     description: 'The deployment domain (e.g. `www.example.com,test.example.com`)'
     required: true
+  force-https:
+    description: 'Optional HTTPS redirect'
+    default: false
   wf-auth-user:
     description: 'Optional HTTP auth user'
   wf-auth-password:

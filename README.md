@@ -34,6 +34,9 @@ The deployment environment to use (e.g. staging). Default `"production"`.
 ### `deployment-domains`:
 **Required** The deployment domain to use (e.g. `"www.example.com,test.example.com"`)
 
+### `force-https`
+Optional HTTPS redirect
+
 ### `wf-auth-user`
 Optional HTTP auth user
 
@@ -69,6 +72,7 @@ with:
   database-password: ${{ secrets.APP_DB_PASSWORD }}
   deployment-environment: 'staging'
   deployment-domains: 'www.example.com,test.example.com'
+  force-https: 'true'
   wf-auth-user: ${{ secrets.WF_AUTHUSER }}
   wf-auth-password: ${{ secrets.WF_AUTHPASSWORD }}
   aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}

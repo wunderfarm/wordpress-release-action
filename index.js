@@ -14,6 +14,7 @@ const databaseSlavehost = core.getInput('database-slavehost')
 const databaseName = core.getInput('database-name')
 const databaseUser = core.getInput('database-user')
 const databasePassword = core.getInput('database-password')
+const forceHttps = core.getInput('force-https')
 const wfAuthUser = core.getInput('wf-auth-user')
 const wfAuthPassword = core.getInput('wf-auth-password')
 const awsS3Bucket = core.getInput('aws-s3-bucket')
@@ -146,6 +147,14 @@ async function runAction() {
             appEnvironmentVars.push({
                 Key: 'DB_SLAVEHOST',
                 Value: databaseSlavehost,
+                Secure: false
+            })
+        }
+
+        if (forceHttps) {
+            appEnvironmentVars.push({
+                Key: 'FORCE_HTTPS',
+                Value: forceHttps,
                 Secure: false
             })
         }
