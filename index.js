@@ -72,7 +72,6 @@ function deployApp(awsOpsworksAppId) {
         execSync(`cp -R vendor dist`).toString()
         execSync(`cp -R wp dist`).toString()
         execSync(`cp -R wp-content dist`).toString()
-        execSync(`cp -R .htaccess dist`).toString()
         execSync(`cp -R index.php dist`).toString()
         execSync(`cp -R wp-config.* dist`).toString()
         execSync(`cp -R robots.txt dist 2>/dev/null || :`).toString()
