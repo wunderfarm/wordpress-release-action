@@ -7,6 +7,7 @@ const fs = require('fs')
 const AWS = require('aws-sdk')
 const wfWebname = core.getInput('wf-webname')
 const wfClient = core.getInput('wf-client') ? core.getInput('wf-client') : wfWebname
+const appName = core.getInput('app-name') ? core.getInput('app-name') : core.getInput('wf-webname')
 const deploymentDomains = core.getInput('deployment-domains')
 const deploymentEnvironment = core.getInput('deployment-environment') ? core.getInput('deployment-environment') : 'production'
 const databaseHost = core.getInput('database-host')
@@ -42,7 +43,7 @@ async function getAwsOpsworksApp() {
                 core.setFailed(err.toString())
                 throw err
             } else {
-                let app = data.Apps.find(app => app.Shortname === wfWebname)
+                let app = data.Apps.find(app => app.Shortname === appName)
                 resolve(app)
             }
         })
@@ -75,15 +76,15 @@ function deployApp(awsOpsworksAppId) {
         execSync(`cp -R index.php dist`).toString()
         execSync(`cp -R wp-config.* dist`).toString()
         execSync(`cp -R robots.txt dist 2>/dev/null || :`).toString()
-        execSync(`zip -rq ${wfWebname} ./dist`).toString()
+        execSync(`zip -rq ${appName} ./dist`).toString()
 
-        let filename = wfWebname + '.zip'
+        let filename = appName + '.zip'
         let file = fs.readFileSync(filename)
 
         let s3params = {
             Bucket: awsS3Bucket,
             Tagging: 'client=' + wfClient + '',
-            Key: awsOpsworksStackId + '/' + wfWebname + '_' + awsOpsworksAppId + '/' + filename,
+            Key: awsOpsworksStackId + '/' + appName + '_' + awsOpsworksAppId + '/' + filename,
             Body: file
         }
 
@@ -121,6 +122,10 @@ async function runAction() {
         let appDomains = deploymentDomains.split(',')
 
         let appEnvironmentVars = [{
+                Key: 'WF_WEBNAME',
+                Value: wfWebname,
+                Secure: false
+            },{
                 Key: 'WF_ENV',
                 Value: deploymentEnvironment,
                 Secure: false
@@ -179,7 +184,7 @@ async function runAction() {
 
             let appParams = {
                 AppId: app.AppId,
-                Name: wfWebname,
+                Name: appName,
                 Type: 'other',
                 AppSource: {
                     Type: ' other'
@@ -205,8 +210,8 @@ async function runAction() {
         } else {
 
             let appParams = {
-                Name: wfWebname,
-                Shortname: wfWebname,
+                Name: appName,
+                Shortname: appName,
                 StackId: awsOpsworksStackId,
                 Type: 'other',
                 AppSource: {

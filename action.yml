@@ -9,6 +9,9 @@ inputs:
   wf-client:
     description: 'The unique name of the client (e.g. ACME)'
     default: 'ACME'
+  app-name:
+    description: 'Optional unique OpsWorks app-name of the web (e.g. example_production)'
+    required: false
   database-host:
     description: 'The database host'
     required: true

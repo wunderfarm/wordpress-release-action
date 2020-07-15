@@ -10,6 +10,9 @@ This action builds WF WordPress projects, uploads the zipped artifacts to an AWS
 ### `wf-client`
 **Required** The unique name of the client. (e.g. `"example2020"`)`.
 
+### `app-name`
+Optional OpsWorks app-name of the web. (e.g. `"example_production"`)`.
+
 ### `aws-s3-bucket`
 **Required** The AWS S3 Bucket Name.
 
@@ -64,6 +67,7 @@ uses: wunderfarm/wordpress-release-action@v4
 with:
   wf-webname: 'example2020'
   wf-client: 'example2020'
+  app-name: 'example_production'
   aws-s3-bucket: ${{ secrets.AWS_S3_BUCKET }}
   database-host: ${{ secrets.APP_DB_HOST }}
   database-slavehost: ${{ secrets.APP_DB_SLAVEHOST }}
