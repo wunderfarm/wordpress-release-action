@@ -68,7 +68,6 @@ inputs:
     description: 'The AWS RDS instance ARN'
     required: true
 
-
 runs:
   using: 'node12'
   main: 'dist/index.js'
