@@ -32,6 +32,15 @@ inputs:
   deployment-domains:
     description: 'The deployment domain (e.g. `www.example.com,test.example.com`)'
     required: true
+  php-timeout:
+    description: 'Optional PHP Timeout value'
+    required: false
+  memory-limit:
+    description: 'Optional PHP memory limit'
+    required: false
+  upload-max-filesize:
+    description: 'Optional maximum PHP upload filesize'
+    required: false
   force-https:
     description: 'Optional HTTPS redirect'
     default: false
@@ -58,6 +67,8 @@ inputs:
   aws-rds-arn:
     description: 'The AWS RDS instance ARN'
     required: true
+
+
 runs:
   using: 'node12'
   main: 'dist/index.js'

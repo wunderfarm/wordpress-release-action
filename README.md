@@ -37,6 +37,15 @@ The deployment environment to use (e.g. staging). Default `"production"`.
 ### `deployment-domains`:
 **Required** The deployment domain to use (e.g. `"www.example.com,test.example.com"`)
 
+### `php-timeout`
+Optional PHP timeout value
+
+### `memory-limit`
+Optional PHP memory limit
+
+### `upload-max-filesize`
+Optional maximum PHP upload filesize
+
 ### `force-https`
 Optional HTTPS redirect
 
@@ -76,6 +85,9 @@ with:
   database-password: ${{ secrets.APP_DB_PASSWORD }}
   deployment-environment: 'staging'
   deployment-domains: 'www.example.com,test.example.com'
+  php-timeout: '60'
+  memory-limit: '256M'
+  upload-max-filesize: '64M'
   force-https: 'true'
   wf-auth-user: ${{ secrets.WF_AUTHUSER }}
   wf-auth-password: ${{ secrets.WF_AUTHPASSWORD }}

@@ -15,6 +15,9 @@ const databaseSlavehost = core.getInput('database-slavehost')
 const databaseName = core.getInput('database-name')
 const databaseUser = core.getInput('database-user')
 const databasePassword = core.getInput('database-password')
+const phpTimeout = core.getInput('php-timeout')
+const memoryLimit = core.getInput('memory-limit')
+const uploadMaxFilesize = core.getInput('upload-max-filesize')
 const forceHttps = core.getInput('force-https')
 const wfAuthUser = core.getInput('wf-auth-user')
 const wfAuthPassword = core.getInput('wf-auth-password')
@@ -151,6 +154,30 @@ async function runAction() {
             appEnvironmentVars.push({
                 Key: 'DB_SLAVEHOST',
                 Value: databaseSlavehost,
+                Secure: false
+            })
+        }
+
+        if (phpTimeout) {
+            appEnvironmentVars.push({
+                Key: 'php_timeout',
+                Value: phpTimeout,
+                Secure: false
+            })
+        }
+
+        if (memoryLimit) {
+            appEnvironmentVars.push({
+                Key: 'memory_limit',
+                Value: memoryLimit,
+                Secure: false
+            })
+        }
+
+        if (uploadMaxFilesize) {
+            appEnvironmentVars.push({
+                Key: 'upload_max_filesize',
+                Value: uploadMaxFilesize,
                 Secure: false
             })
         }
