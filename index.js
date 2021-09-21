@@ -16,6 +16,7 @@ const databaseName = core.getInput('database-name')
 const databaseUser = core.getInput('database-user')
 const databasePassword = core.getInput('database-password')
 const phpTimeout = core.getInput('php-timeout')
+const phpVersion = core.getInput('php-version')
 const memoryLimit = core.getInput('memory-limit')
 const uploadMaxFilesize = core.getInput('upload-max-filesize')
 const forceHttps = core.getInput('force-https')
@@ -162,6 +163,14 @@ async function runAction() {
             appEnvironmentVars.push({
                 Key: 'php_timeout',
                 Value: phpTimeout,
+                Secure: false
+            })
+        }
+
+        if (phpVersion) {
+            appEnvironmentVars.push({
+                Key: 'php_version',
+                Value: phpVersion,
                 Secure: false
             })
         }

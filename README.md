@@ -40,6 +40,9 @@ The deployment environment to use (e.g. staging). Default `"production"`.
 ### `php-timeout`
 Optional PHP timeout value
 
+### `php-version`
+Optional PHP Version
+
 ### `memory-limit`
 Optional PHP memory limit
 
@@ -86,6 +89,7 @@ with:
   deployment-environment: 'staging'
   deployment-domains: 'www.example.com,test.example.com'
   php-timeout: '60'
+  php-version: '8.0'
   memory-limit: '256M'
   upload-max-filesize: '64M'
   force-https: 'true'
