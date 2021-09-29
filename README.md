@@ -58,11 +58,17 @@ Optional HTTP auth user
 ### `wf-auth-password`
 Optional HTTP auth password
 
+### `app-aws-access-key-id`
+Optional App specific AWS Access Key ID (set up as an OpsWorks environment variable).
+
+### `app-aws-secret-access-key`
+Optional App specific AWS Secred Access Key (set up as an OpsWorks environment variable).
+
 ### `aws-access-key-id`
-**Required** The AWS S3 Access Key ID.
+**Required** The AWS S3 Access Key ID for the deployment process.
 
 ### `aws-secret-access-key`
-**Required** The AWS S3 Secred Access Key.
+**Required** The AWS S3 Secred Access Key for the deployment process.
 
 ### `aws-region`
 The AWS S3 Region. Default `"eu-west-1"`
@@ -95,6 +101,8 @@ with:
   force-https: 'true'
   wf-auth-user: ${{ secrets.WF_AUTHUSER }}
   wf-auth-password: ${{ secrets.WF_AUTHPASSWORD }}
+  app-aws-access-key-id: ${{ secrets.APP_AWS_ACCESS_KEY_ID }}
+  app-aws-secret-access-key: ${{ secrets.APP_AWS_SECRET_ACCESS_KEY }}
   aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   aws-region: 'eu-west-1'

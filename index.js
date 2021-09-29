@@ -22,6 +22,8 @@ const uploadMaxFilesize = core.getInput('upload-max-filesize')
 const forceHttps = core.getInput('force-https')
 const wfAuthUser = core.getInput('wf-auth-user')
 const wfAuthPassword = core.getInput('wf-auth-password')
+const appAwsAccessKeyId = core.getInput('app-aws-access-key-id')
+const appAwsSecretAccessKey = core.getInput('app-aws-secret-access-key')
 const awsS3Bucket = core.getInput('aws-s3-bucket')
 const awsAccessKeyId = core.getInput('aws-access-key-id')
 const awsSecretAccessKey = core.getInput('aws-secret-access-key')
@@ -208,6 +210,19 @@ async function runAction() {
             appEnvironmentVars.push({
                 Key: 'WF_AUTHPASSWORD',
                 Value: wfAuthPassword,
+                Secure: true
+            })
+        }
+        
+        if (appAwsAccessKeyId && appAwsSecretAccessKey) {
+            appEnvironmentVars.push({
+                Key: 'APP_AWS_ACCESS_KEY_ID',
+                Value: appAwsAccessKeyId,
+                Secure: false
+            })
+            appEnvironmentVars.push({
+                Key: 'APP_AWS_SECRET_ACCESS_KEY',
+                Value: appAwsSecretAccessKey,
                 Secure: true
             })
         }
