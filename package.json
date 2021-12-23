@@ -23,11 +23,11 @@
     "@actions/artifact": "^0.2.0",
     "@actions/core": "^1.2.6",
     "@actions/github": "^2.2.0",
-    "aws-sdk": "^2.672.0",
+    "aws-sdk": "^2.814.0",
     "tweetsodium": "0.0.5"
   },
   "devDependencies": {
     "@zeit/ncc": "^0.20.5",
-    "eslint": "^6.3.0"
+    "eslint": "^8.5.0"
   }
 }
