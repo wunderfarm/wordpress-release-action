@@ -20,6 +20,7 @@ const phpVersion = core.getInput('php-version')
 const memoryLimit = core.getInput('memory-limit')
 const uploadMaxFilesize = core.getInput('upload-max-filesize')
 const forceHttps = core.getInput('force-https')
+const appWpmlSiteKey = core.getInput('app-wpml-site-key')
 const wfAuthUser = core.getInput('wf-auth-user')
 const wfAuthPassword = core.getInput('wf-auth-password')
 const appAwsAccessKeyId = core.getInput('app-aws-access-key-id')
@@ -223,6 +224,14 @@ async function runAction() {
             appEnvironmentVars.push({
                 Key: 'APP_AWS_SECRET_ACCESS_KEY',
                 Value: appAwsSecretAccessKey,
+                Secure: true
+            })
+        }
+
+        if (appWpmlSiteKey) {
+            appEnvironmentVars.push({
+                Key: 'APP_WPML_SITE_KEY',
+                Value: appWpmlSiteKey,
                 Secure: true
             })
         }

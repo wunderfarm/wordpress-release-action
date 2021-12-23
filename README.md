@@ -52,6 +52,9 @@ Optional maximum PHP upload filesize
 ### `force-https`
 Optional HTTPS redirect
 
+### `app-wpml-site-key`
+Optional WPML site key
+
 ### `wf-auth-user`
 Optional HTTP auth user
 
@@ -99,6 +102,7 @@ with:
   memory-limit: '256M'
   upload-max-filesize: '64M'
   force-https: 'true'
+  app-wpml-site-key: ${{ secrets.APP_WPML_SITE_KEY }}
   wf-auth-user: ${{ secrets.WF_AUTHUSER }}
   wf-auth-password: ${{ secrets.WF_AUTHPASSWORD }}
   app-aws-access-key-id: ${{ secrets.APP_AWS_ACCESS_KEY_ID }}

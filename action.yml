@@ -47,6 +47,9 @@ inputs:
   force-https:
     description: 'Optional HTTPS redirect'
     default: false
+  app-wpml-site-key:
+    description: 'Optional WPML site key'
+    required: false
   wf-auth-user:
     description: 'Optional HTTP auth user'
   wf-auth-password:
