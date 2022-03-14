@@ -73,7 +73,11 @@ function deployApp(awsOpsworksAppId) {
         console.log(execSync(`composer install --prefer-dist --no-progress --no-suggest`).toString())
         console.log(execSync(`composer update johnpbloch/wordpress wunderfarm/* --with-dependencies`).toString())
         console.log(execSync(`sudo npm install -g n`).toString())
-        console.log(execSync(`sudo n v10.15`).toString())
+        if (fs.existsSync('./.nvmrc')) {
+            console.log(execSync(`sudo n auto`).toString())
+        } else {
+            console.log(execSync(`sudo n v10.15`).toString())
+        }
         console.log(execSync(`npm ci`).toString())
         console.log(execSync(`npm run build`).toString())
         execSync(`mkdir dist`).toString()
