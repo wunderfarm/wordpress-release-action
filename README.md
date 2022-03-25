@@ -122,7 +122,7 @@ with:
   aws-opsworks-stack-id: ${{ secrets.AWS_STACK_ID }}
   aws-rds-arn: ${{ secrets.AWS_RDS_ARN }}
   remote-api-uri: ${{ secrets.REMOTE_API_URI }}
-  remote-api-user: ${{ secrets.REMOTE_API_USERNAME }}
+  remote-api-user: ${{ secrets.REMOTE_API_USER }}
   remote-api-password: ${{ secrets.REMOTE_API_PASSWORD }}
 ```
 
