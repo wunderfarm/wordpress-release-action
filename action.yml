@@ -73,6 +73,15 @@ inputs:
   aws-rds-arn:
     description: 'The AWS RDS instance ARN'
     required: true
+  remote-api-uri:
+    description: 'Optional remote api uri'
+    required: false
+  remote-api-user:
+    description: 'Optional remote api user'
+    required: false
+  remote-api-password:
+    description: 'Optional remote api password'
+    required: false
 
 runs:
   using: 'node12'
