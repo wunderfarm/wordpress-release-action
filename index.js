@@ -31,6 +31,9 @@ const awsSecretAccessKey = core.getInput('aws-secret-access-key')
 const awsRegion = core.getInput('aws-region')
 const awsOpsworksStackId = core.getInput('aws-opsworks-stack-id')
 const awsRdsDbArn = core.getInput('aws-rds-arn')
+const remoteApiUri = core.getInput('remote-api-uri')
+const remoteApiUser = core.getInput('remote-api-user')
+const remoteApiPassword = core.getInput('remote-api-password')
 
 AWS.config = new AWS.Config()
 AWS.config.accessKeyId = awsAccessKeyId
@@ -216,6 +219,30 @@ async function runAction() {
             appEnvironmentVars.push({
                 Key: 'WF_AUTHPASSWORD',
                 Value: wfAuthPassword,
+                Secure: true
+            })
+        }
+
+        if (remoteApiUri) {
+            appEnvironmentVars.push({
+                Key: 'REMOTE_API_URI',
+                Value: remoteApiUri,
+                Secure: false
+            })
+        }
+
+        if (remoteApiUser) {
+            appEnvironmentVars.push({
+                Key: 'REMOTE_API_USER',
+                Value: remoteApiUser,
+                Secure: false
+            })
+        }
+
+        if (remoteApiPassword) {
+            appEnvironmentVars.push({
+                Key: 'REMOTE_API_PASSWORD',
+                Value: remoteApiPassword,
                 Secure: true
             })
         }

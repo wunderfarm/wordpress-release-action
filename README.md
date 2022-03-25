@@ -82,6 +82,15 @@ The AWS S3 Region. Default `"eu-west-1"`
 ### `aws-rds-arn`
 **Required** The AWS RDS instance ARN. 
 
+### `remote-api-uri`
+Optional remote api uri
+
+### `remote-api-user`
+Optional remote api user
+
+### `remote-api-password`
+Optional remote api password
+
 ## Example usage
 ```yaml
 uses: wunderfarm/wordpress-release-action@v4
@@ -112,6 +121,9 @@ with:
   aws-region: 'eu-west-1'
   aws-opsworks-stack-id: ${{ secrets.AWS_STACK_ID }}
   aws-rds-arn: ${{ secrets.AWS_RDS_ARN }}
+  remote-api-uri: ${{ secrets.REMOTE_API_URI }}
+  remote-api-user: ${{ secrets.REMOTE_API_USERNAME }}
+  remote-api-password: ${{ secrets.REMOTE_API_PASSWORD }}
 ```
 
 ## Package for distribution
