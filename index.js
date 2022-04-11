@@ -34,6 +34,7 @@ const awsRdsDbArn = core.getInput('aws-rds-arn')
 const remoteApiUri = core.getInput('remote-api-uri')
 const remoteApiUser = core.getInput('remote-api-user')
 const remoteApiPassword = core.getInput('remote-api-password')
+const secondaryDomains = core.getInput('secondary-domains')
 
 AWS.config = new AWS.Config()
 AWS.config.accessKeyId = awsAccessKeyId
@@ -264,6 +265,14 @@ async function runAction() {
             appEnvironmentVars.push({
                 Key: 'APP_WPML_SITE_KEY',
                 Value: appWpmlSiteKey,
+                Secure: true
+            })
+        }
+
+        if (secondaryDomains) {
+            appEnvironmentVars.push({
+                Key: 'SECONDARY_DOMAINS',
+                Value: secondaryDomains,
                 Secure: true
             })
         }

@@ -112,6 +112,7 @@ with:
   upload-max-filesize: '64M'
   force-https: 'true'
   app-wpml-site-key: ${{ secrets.APP_WPML_SITE_KEY }}
+  secondary-domains:  'www.example2.com,test.example2.com'
   wf-auth-user: ${{ secrets.WF_AUTHUSER }}
   wf-auth-password: ${{ secrets.WF_AUTHPASSWORD }}
   app-aws-access-key-id: ${{ secrets.APP_AWS_ACCESS_KEY_ID }}
