@@ -82,6 +82,9 @@ inputs:
   remote-api-password:
     description: 'Optional remote api password'
     required: false
+  secondary-domains:
+    description: 'Optional secondary deployment domain (e.g. `landingpage.example.com`)'
+    required: false
 
 runs:
   using: 'node12'
