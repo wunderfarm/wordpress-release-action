@@ -272,8 +272,7 @@ async function runAction() {
         if (secondaryDomains) {
             appEnvironmentVars.push({
                 Key: 'SECONDARY_DOMAINS',
-                Value: secondaryDomains,
-                Secure: true
+                Value: secondaryDomains
             })
         }
 
