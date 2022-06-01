@@ -75,7 +75,6 @@ function deployApp(awsOpsworksAppId) {
         message = message + 'Ref: ' + githubRef + ' (' + commitSha.substring(0, 7) + ')'
         console.log(execSync('composer validate').toString())
         console.log(execSync(`composer install --prefer-dist --no-progress --no-suggest`).toString())
-        console.log(execSync(`composer update johnpbloch/wordpress wunderfarm/* --with-dependencies`).toString())
         console.log(execSync(`sudo npm install -g n`).toString())
         if (fs.existsSync('./.nvmrc')) {
             console.log(execSync(`sudo n auto`).toString())
