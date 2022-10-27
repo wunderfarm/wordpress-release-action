@@ -151,6 +151,11 @@ async function runAction() {
                 Secure: false
             },
             {
+                Key: 'DB_NAME',
+                Value: databaseName,
+                Secure: false
+            },
+            {
                 Key: 'DB_USER',
                 Value: databaseUser,
                 Secure: false
