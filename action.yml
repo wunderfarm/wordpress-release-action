@@ -47,6 +47,9 @@ inputs:
   force-https:
     description: 'Optional HTTPS redirect'
     default: false
+  redirect-html:
+    description: 'Optional .html redirect'
+    default: false
   app-wpml-site-key:
     description: 'Optional WPML site key'
     required: false

@@ -52,6 +52,9 @@ Optional maximum PHP upload filesize
 ### `force-https`
 Optional HTTPS redirect
 
+### `redirect-html`
+Optional .html redirect
+
 ### `app-wpml-site-key`
 Optional WPML site key
 

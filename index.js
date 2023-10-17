@@ -20,6 +20,7 @@ const phpVersion = core.getInput('php-version')
 const memoryLimit = core.getInput('memory-limit')
 const uploadMaxFilesize = core.getInput('upload-max-filesize')
 const forceHttps = core.getInput('force-https')
+const redirectHtml = core.getInput('redirect-html')
 const appWpmlSiteKey = core.getInput('app-wpml-site-key')
 const wfAuthUser = core.getInput('wf-auth-user')
 const wfAuthPassword = core.getInput('wf-auth-password')
@@ -211,6 +212,14 @@ async function runAction() {
             appEnvironmentVars.push({
                 Key: 'FORCE_HTTPS',
                 Value: forceHttps,
+                Secure: false
+            })
+        }
+
+        if (redirectHtml) {
+            appEnvironmentVars.push({
+                Key: 'REDIRECT_HTML',
+                Value: redirectHtml,
                 Secure: false
             })
         }
